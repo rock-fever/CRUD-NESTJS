@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
+import * as admin from 'firebase-admin'
 
 describe('UsersService', () => {
   let service: UsersService;

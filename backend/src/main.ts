@@ -1,21 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as session from 'express-session';
-import * as passport from 'passport';
+import * as admin from 'firebase-admin';
+import 'dotenv/config'
 
 async function bootstrap() {
+  if(!admin.apps.length){
+    admin.initializeApp({
+      credential:admin.credential.cert({
+        clientEmail: process.env.CLIENT_EMAIL,
+        privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        projectId: process.env.PROJECT_ID
+      }),
+      databaseURL: 'https://booksyourbrain-5b1e4.firebaseio.com'
+    })
+  }
   const app = await NestFactory.create(AppModule);
-
-  // app.use(
-  //   session({
-  //     secret:'keyboard cat',
-  //     resave: false,
-  //     saveUnitialized: false,
-  //     cookie: {maxAge: 3600000},
-  //   })
-  // );
-  // app.use(passport.initialize());
-  // app.use(passport.session());
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();

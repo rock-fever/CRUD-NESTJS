@@ -1,29 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import * as admin from 'firebase-admin'
+import { deserializeUser } from 'passport';
 
 export type User = {
     id: number;
     name: string;
-    username: string;
+    email: string;
     password: string;
 }
 @Injectable()
 export class UsersService {
-    private readonly users: User[] = [
-        {
-            id:1,
-            name: 'Amit',
-            username: 'rock',
-            password:'rock',
-        },
-        {
-            id:2,
-            name: 'Ajay',
-            username: 'roll',
-            password:'roll',
-        },
-    ];
-
-    async findOne(username: string): Promise<User | undefined>{
-        return this.users.find(user => user.username === username)
+    private readonly users: User[] = [];
+    
+    async findOne(email: string): Promise<User | undefined>{
+        const firestore = new admin.firestore.Firestore();
+        
+        (await firestore.collection('user').get()).docs.map( data =>{
+            this.users.push({
+                id: data.get('id'),
+                name: data.get('name'),
+                email: data.get('email'),
+                password: data.get('password'),
+            })
+        })
+        return this.users.find(user => user.email === email)
     }
 }
