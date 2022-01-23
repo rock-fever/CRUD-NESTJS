@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin'
-import { deserializeUser } from 'passport';
 
 export type User = {
     id: number;
@@ -10,11 +9,13 @@ export type User = {
 }
 @Injectable()
 export class UsersService {
-    private readonly users: User[] = [];
+    private users: User[] = [];
     
     async findOne(email: string): Promise<User | undefined>{
+        
         const firestore = new admin.firestore.Firestore();
         
+        this.users = [];
         (await firestore.collection('user').get()).docs.map( data =>{
             this.users.push({
                 id: data.get('id'),

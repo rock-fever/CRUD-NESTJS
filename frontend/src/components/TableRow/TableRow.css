@@ -1,0 +1,20 @@
+.tools{
+    display: flex;
+}
+ .tools-delete, .update_btn{
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.update_btn{
+    cursor: pointer;
+}
+.tableRow input{
+    border:none;
+    /* border-bottom:1px solid rgb(221, 216, 216); */
+    outline: none;
+}
+
+.tableRow input:focus{
+    border: 1px solid black;
+}

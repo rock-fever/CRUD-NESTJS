@@ -25,8 +25,9 @@ function LoginPage() {
                 crossDomain:true,
                 dataType: "text",
                 success: function(resultData) { 
-                    window.localStorage.setItem('token', resultData.access_token)
-                    window.location.href = "/homepage"
+                    var token = resultData.split('"')[3]
+                    window.localStorage.setItem('token', token)
+                    window.location.href = "/"
                 },
                 error: function(err){
                     alert('Invalid Credentials!')

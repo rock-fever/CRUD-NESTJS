@@ -11,7 +11,7 @@ import { LocalStrategy } from './local.strategy';
     
   }), JwtModule.register({
     secret:"SECRET" ,
-    signOptions:{ expiresIn: '6800s'}, //2 hours 
+    signOptions:{ expiresIn: '36000s'}, //10 hours 
   })],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService]
